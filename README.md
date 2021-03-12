@@ -85,4 +85,6 @@ spec:
 
 ## Result
 Check whether the T1 Router has injected the correct route on the NSX-T UI.<br>
+<img src="img/T1.png"> 
 Check if T0 Router has learned Pod Subnet in CLI.
+<img src="img/T0.png"> 
