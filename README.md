@@ -2,6 +2,7 @@
 
 ## Overview
 This script is only suitable for injecting static routes into a single T1 Router in NSX-T.<br>
+The only CNI tested is Antrea & Calico, CNI needs to work in no encapsulation mode. <br>
 The script reads the relationship between Node IP and Pod Subnet in the K8s cluster, Generate a static route in Json format, and update the API to the specified T1 Router.<br>
 `This script is purely a personal hobby, it needs to be used with caution in other environments.`
 
@@ -81,3 +82,7 @@ spec:
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 ```
+
+## Result
+Check whether the T1 Router has injected the correct route on the NSX-T UI.<br>
+Check if T0 Router has learned Pod Subnet in CLI.
