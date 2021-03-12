@@ -22,3 +22,62 @@ docker run --name route2nsx \
 -v ~/.kube/config:/root/.kube/config \
 rock981119/route2nsx:unity.v1
 ```
+<br>
+* Pod in Cluster
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: route2nsx-sa
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: route2nsx-sa-get-node
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: route2nsx-sa-get-node-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: route2nsx-sa-get-node
+subjects:
+- kind: ServiceAccount
+  name: route2nsx-sa
+  namespace: default
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: route2nsx
+  name: route2nsx
+spec:
+  hostNetwork: true
+  serviceAccountName: route2nsx-sa
+  containers:
+  - image: rock981119/route2nsx:unity.v1
+    name: route2nsx
+    env:
+    - name: NSXMANAGER_IP
+      value: 192.168.31.245
+    - name: T1ROUTER_ID
+      value: K8C1-T1
+    - name: NSX_USER
+      value: admin
+    - name: NSX_PASSWD
+      value: VMware1!VMware1!
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+```
