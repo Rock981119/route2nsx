@@ -22,7 +22,7 @@ docker run --name route2nsx \
 -v ~/.kube/config:/root/.kube/config \
 rock981119/route2nsx:unity.v1
 ```
-<br>
+
 * Pod in Cluster
 ```
 apiVersion: v1
